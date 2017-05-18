@@ -1,8 +1,17 @@
+//my config - ENV variables
+require('./config/config');
+
 //3rd party modules
-let express = require('express');
+const express = require('express');
+
+//my db connection modules
+const {mongoose} = require('./db/mongoose');
+
+//my model modules
+//COME BACK TBD
 
 let app = express();
-let port = process.env.PORT || 3000;
+const port = process.env.PORT;
 
 app.get('/', (req, res) => {
   res.send('We up in dis b!');
