@@ -47,12 +47,26 @@ describe('POST /users', () => {
       });
   });
 
-  it('should return error if invalid request', () => {
+  it('should return error if invalid request', (done) => {
+    let email = 'lzmo@sdf';
+    let password = '23432';
 
+    request(app)
+      .post('/users')
+      .send({email, password})
+      .expect(400)
+      .end(done);
   });
 
-  it('should not store a user if email is not unique', () => {
+  it('should not store a user if email is not unique', (done) => {
+    let email = 'lee@gmail.com';
+    let password = 'password';
 
+    request(app)
+      .post('/users')
+      .send({email, password})
+      .expect(400)
+      .end(done);
   });
 });
 
