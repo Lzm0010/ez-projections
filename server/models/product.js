@@ -1,7 +1,7 @@
 let mongoose = require('mongoose');
 let Schema = mongoose.Schema;
 
-let productSchema = new Schema({
+let ProductSchema = new Schema({
   name: {
     required: true,
     trim: true,
@@ -19,12 +19,13 @@ let productSchema = new Schema({
         type: String
       },
       value: {
-        required: true
+        required: true,
+        type: String
       }
     }
   ]
 });
 
-let Product = mongoose.model('Product', productSchema);
+let Product = mongoose.model('Product', ProductSchema);
 
 module.exports = {Product};

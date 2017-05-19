@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 let Schema = mongoose.Schema;
 
-let assumptionTypeSchema = new Schema({
+let AssumptionTypeSchema = new Schema({
   name: {
     required: true,
     trim: true,
@@ -10,6 +10,6 @@ let assumptionTypeSchema = new Schema({
   }
 });
 
-let AssumptionType = mongoose.model('AssumptionType', assumptionTypeSchema);
+let AssumptionType = mongoose.model('AssumptionType', AssumptionTypeSchema);
 
 module.exports = {AssumptionType};

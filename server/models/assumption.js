@@ -1,7 +1,7 @@
 let mongoose = require('mongoose');
 let Schema = mongoose.Schema;
 
-let assumptionSchema = new Schema({
+let AssumptionSchema = new Schema({
   _company: {
     required: true,
     type: mongoose.Schema.Types.ObjectId
@@ -28,12 +28,13 @@ let assumptionSchema = new Schema({
         type: String
       },
       rule: {
-        required: true
+        required: true,
+        type: String
       }
     }
   ]
 });
 
-let Assumption = mongoose.model('Assumption', assumptionSchema);
+let Assumption = mongoose.model('Assumption', AssumptionSchema);
 
 module.exports = {Assumption};
