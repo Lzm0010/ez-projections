@@ -7,6 +7,10 @@ let AssumptionTypeSchema = new Schema({
     trim: true,
     minlength: 1,
     type: String,
+  },
+  _company: {
+    required: true,
+    type: mongoose.Schema.Types.ObjectId
   }
 });
 

@@ -68,95 +68,153 @@ app.delete('/users/me/token', authenticate, (req, res) => {
 
 //company routes
 //create a company
-app.post('/companies', (req,res) => {
+app.post('/companies', authenticate, (req,res) => {
+  let company = new Company ({
+    name: req.body.name,
+    _creator: req.user._id
+  });
+
+  company.save().then((comp) => {
+    res.send(comp);
+  }, (err) => {
+    if (err) {
+      res.status(400).send(err);
+    }
+  });
 
 });
 
 //get all companies associated w/ user
-app.get('/companies', (req,res) => {
-
+app.get('/companies', authenticate, (req,res) => {
+  Company.find({_creator: req.user._id}).then((companies) => {
+    res.send({companies});
+  }, (err) => {
+    return res.status(400).send(err);
+  });
 });
 
 //get specific company
-app.get('/companies/:id', (req,res) => {
+app.get('/companies/:id', authenticate, (req,res) => {
+  let id = req.params.id;
 
+  if (!ObjectID.isValid(id)){
+    return res.status(404).send();
+  }
+
+  Company.findOne(
+    {
+      _id: id,
+      _creator: req.user._id
+    }).then((comp) => {
+      if(!comp) {
+        return res.status(404).send();
+      }
+
+      res.send({comp});
+    }).catch((err) => {
+      res.status(400).send(err);
+    });
 });
 
 //update company
-app.patch('/companies/:id', (req,res) => {
+app.patch('/companies/:id', authenticate, (req,res) => {
+  let id = req.params.id;
+  let body = _.pick(req.body, ['name']);
 
+  if(!ObjectID.isValid(id)) {
+    return res.status(404).send();
+  }
+
+  Company.findOneAndUpdate({_id: id, _creator: req.user._id}, {$set: body}, {new: true}).then((comp) => {
+    if (!comp) {
+      return res.status(404).send();
+    }
+
+    res.send({comp});
+  }).catch((err) => res.status(400).send(err));
 });
 
 //delete a company
-app.delete('/companies/:id', (req,res) => {
+app.delete('/companies/:id', authenticate, (req,res) => {
+  let id = req.params.id;
 
+  if (!ObjectID.isValid(id)){
+    return res.status(404).send();
+  }
+
+  Company.findOneAndRemove({_id: id, _creator: req.user._id}).then((comp) => {
+    if(!comp) {
+      return res.status(404).send();
+    }
+    res.send({comp});
+  }).catch((err) => res.status(400).send(err));
 });
 
 //assumption-type routes
 //create assumption type
-app.post('/assumption-types', (req,res) => {
-
+app.post('/assumption-types', authenticate, (req,res) => {
+  
 });
 
 //get assumption types
-app.get('/assumption-types', (req,res) => {
+app.get('/assumption-types', authenticate, (req,res) => {
 
 });
 
 //update assumption type
-app.patch('/assumption-types/:id', (req,res) => {
+app.patch('/assumption-types/:id', authenticate, (req,res) => {
 
 });
 
 //delete assumption type
-app.delete('/assumption-types', (req,res) => {
+app.delete('/assumption-types', authenticate, (req,res) => {
 
 });
 
 //assumption routes
 //create assumption
-app.post('/assumptions', (req,res) => {
+app.post('/assumptions', authenticate, (req,res) => {
 
 });
 
 //get all assumptions associated w/ company
-app.get('/assumptions', (req,res) => {
+app.get('/assumptions', authenticate, (req,res) => {
 
 });
 
 //update assumption
-app.patch('/assumptions/:id', (req,res) => {
+app.patch('/assumptions/:id', authenticate, (req,res) => {
 
 });
 
 //delete assumption
-app.delete('/assumptions/:id', (req,res) => {
+app.delete('/assumptions/:id', authenticate, (req,res) => {
 
 });
 
 //product routes
 //create a product
-app.post('/products', (req,res) => {
+app.post('/products', authenticate, (req,res) => {
 
 });
 
 //get all products associated w/ company
-app.get('/products', (req,res) => {
+app.get('/products', authenticate, (req,res) => {
 
 });
 
 //get specific product
-app.get('/products/:id', (req,res) => {
+app.get('/products/:id', authenticate, (req,res) => {
 
 });
 
 //update product
-app.patch('/products/:id', (req,res) => {
+app.patch('/products/:id', authenticate, (req,res) => {
 
 });
 
 //delete product
-app.delete('/products/:id', (req,res) => {
+app.delete('/products/:id', authenticate, (req,res) => {
 
 });
 

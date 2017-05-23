@@ -1,6 +1,7 @@
 const {ObjectID} = require('mongodb');
 const jwt = require('jsonwebtoken');
 const {User} = require('./../../models/user');
+const {Company} = require('./../../models/company');
 
 const userOneId = new ObjectID();
 const userTwoId = new ObjectID();
@@ -25,6 +26,25 @@ const users = [
 	}
 ];
 
+const companies = [
+	{
+		_id: new ObjectID(),
+		name: "Some Company LLC",
+		_creator: userOneId
+	},
+	{
+		_id: new ObjectID(),
+		name: "Another Comp Corporation",
+		_creator: userTwoId
+	}
+];
+
+const populateCompanies = (done) => {
+	Company.remove({}).then(() => {
+		return Company.insertMany(companies);
+	}).then(() => done());
+};
+
 const populateUsers = (done) => {
 	User.remove({}).then(() => {
 		let userOne = new User(users[0]).save();
@@ -34,4 +54,4 @@ const populateUsers = (done) => {
 	}).then(() => done());
 };
 
-module.exports = {users, populateUsers};
+module.exports = {users, companies, populateUsers, populateCompanies};
