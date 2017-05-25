@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-let Schema = mongoose.Schema;
+const Schema = mongoose.Schema;
 
 let CompanySchema = new Schema({
   name: {
@@ -11,8 +11,17 @@ let CompanySchema = new Schema({
   },
   _creator: {
     required: true,
-    type: mongoose.Schema.Types.ObjectId
-  }
+    type: Schema.Types.ObjectId,
+    ref: 'User'
+  },
+  products: [{
+    type: Schema.Types.ObjectId,
+    ref: 'Product'
+  }],
+  rules: [{
+    type: Schema.Types.ObjectId,
+    ref: 'Rule'
+  }]
 });
 
 let Company = mongoose.model('Company', CompanySchema);

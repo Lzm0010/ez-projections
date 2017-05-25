@@ -13,9 +13,10 @@ const {mongoose} = require('./db/mongoose');
 //my model modules
 const {User} = require('./models/user');
 const {Company} = require('./models/company');
-const {AssumptionType} = require('./models/assumption-type');
-const {Assumption} = require('./models/assumption');
 const {Product} = require('./models/product');
+const {AssumptionType} = require('./models/assumption-type');
+const {Rule} = require('./models/rule');
+const {Assumption} = require('./models/assumption');
 
 //my middleware modules
 let {authenticate} = require('./middleware/authenticate');
@@ -152,9 +153,12 @@ app.delete('/companies/:id', authenticate, (req,res) => {
 
 //assumption-type routes
 //create assumption type
-app.post('/assumption-types', authenticate, (req,res) => {
-  
-});
+// app.post('/assumption-types', authenticate, (req,res) => {
+//   let assumptionType = new assumptionType({
+//     name: " ",
+//     _company:
+//   })
+// });
 
 //get assumption types
 app.get('/assumption-types', authenticate, (req,res) => {

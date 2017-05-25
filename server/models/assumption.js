@@ -1,14 +1,11 @@
-let mongoose = require('mongoose');
-let Schema = mongoose.Schema;
+const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
 
 let AssumptionSchema = new Schema({
-  _company: {
-    required: true,
-    type: mongoose.Schema.Types.ObjectId
-  },
   _type: {
     required: true,
-    type: mongoose.Schema.Types.ObjectId
+    type: Schema.Types.ObjectId,
+    ref: 'AssumptionType'
   },
   name: {
     required: true,
@@ -21,18 +18,9 @@ let AssumptionSchema = new Schema({
     type: String,
     enum: ['Currency', 'Date', 'Number', 'Percentage']
   },
-  rules: [
-    {
-      page: {
-        required: true,
-        type: String
-      },
-      rule: {
-        required: true,
-        type: String
-      }
-    }
-  ]
+  value: {
+    type: Number
+  }
 });
 
 let Assumption = mongoose.model('Assumption', AssumptionSchema);

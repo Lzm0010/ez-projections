@@ -6,9 +6,10 @@ const {ObjectID} = require('mongodb');
 const {app} = require('./../server');
 const {User} = require('./../models/user');
 const {Company} = require('./../models/company');
-const {AssumptionType} = require('./../models/assumption-type');
-const {Assumption} = require('./../models/assumption');
 const {Product} = require('./../models/product');
+const {AssumptionType} = require('./../models/assumption-type');
+const {Rule} = require('./../models/rule');
+const {Assumption} = require('./../models/assumption');
 
 //seed data
 const {users, companies, populateUsers, populateCompanies} = require('./seed/seed');
