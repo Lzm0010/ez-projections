@@ -151,74 +151,126 @@ app.delete('/companies/:id', authenticate, (req,res) => {
   }).catch((err) => res.status(400).send(err));
 });
 
-//assumption-type routes
-//create assumption type
-// app.post('/assumption-types', authenticate, (req,res) => {
-//   let assumptionType = new assumptionType({
-//     name: " ",
-//     _company:
-//   })
-// });
+// category routes
+// create category for a company
+app.post('/companies/:id/categories', authenticate, (req,res) => {
+  let compId = req.params.id;
+  let category = new Category({
+    name: req.body.name
+  });
 
-//get assumption types
-app.get('/assumption-types', authenticate, (req,res) => {
+  if (!ObjectID.isValid(compId)){
+    return res.status(404).send();
+  }
+
+  Company.findOne(
+    {
+      _id: compId,
+      _creator: req.user._id
+    }).then((comp) => {
+      if(!comp) {
+        return res.status(404).send();
+      }
+
+      category.save().then((category) => {
+        comp.categories.push(category);
+        comp.save().then(comp => {
+          res.send(comp);
+        }), (err) => {
+          if (err) {
+            res.status(400).send(err);
+          }
+        }
+      }, (err) => {
+        if (err) {
+          res.status(400).send(err);
+        }
+      });
+    }).catch((err) => {
+      res.status(400).send(err);
+    });
+});
+
+//get all categories for company
+app.get('/companies/:id/categories', authenticate, (req,res) => {
 
 });
 
-//update assumption type
-app.patch('/assumption-types/:id', authenticate, (req,res) => {
+//update category
+app.patch('/companies/:id/categories/:id', authenticate, (req,res) => {
 
 });
 
-//delete assumption type
-app.delete('/assumption-types', authenticate, (req,res) => {
-
-});
-
-//assumption routes
-//create assumption
-app.post('/assumptions', authenticate, (req,res) => {
-
-});
-
-//get all assumptions associated w/ company
-app.get('/assumptions', authenticate, (req,res) => {
-
-});
-
-//update assumption
-app.patch('/assumptions/:id', authenticate, (req,res) => {
-
-});
-
-//delete assumption
-app.delete('/assumptions/:id', authenticate, (req,res) => {
+//delete category
+app.delete('/companies/:id/categories/:id', authenticate, (req,res) => {
 
 });
 
 //product routes
 //create a product
-app.post('/products', authenticate, (req,res) => {
+app.post('/companies/:id/products', authenticate, (req,res) => {
 
 });
 
 //get all products associated w/ company
-app.get('/products', authenticate, (req,res) => {
+app.get('/companies/:id/products', authenticate, (req,res) => {
 
 });
 
 //get specific product
-app.get('/products/:id', authenticate, (req,res) => {
+app.get('/companies/:id/products/:id', authenticate, (req,res) => {
 
 });
 
 //update product
-app.patch('/products/:id', authenticate, (req,res) => {
+app.patch('/companies/:id/products/:id', authenticate, (req,res) => {
 
 });
 
 //delete product
-app.delete('/products/:id', authenticate, (req,res) => {
+app.delete('/companies/:id/products/:id', authenticate, (req,res) => {
+
+});
+
+//rule routes
+//create a rule
+app.post('/companies/:id/rules', authenticate, (req,res) => {
+
+});
+
+//get all rules associated w/ company
+app.get('/companies/:id/rules', authenticate, (req,res) => {
+
+});
+
+//update rule
+app.patch('/companies/:id/rules/:id', authenticate, (req,res) => {
+
+});
+
+//delete rule
+app.delete('/companies/:id/rules/:id', authenticate, (req,res) => {
+
+});
+
+//assumption routes
+//create assumption
+app.post('/companies/:id/products/:id/assumptions', authenticate, (req,res) => {
+
+});
+
+//get all assumptions associated w/ product
+app.get('/companies/:id/products/:id/assumptions', authenticate, (req,res) => {
+
+});
+
+//update assumption
+app.patch('/companies/:id/products/:id/assumptions/:id', authenticate, (req,res) => {
+
+});
+
+//delete assumption
+app.delete('/companies/:id/products/:id/assumptions/:id', authenticate, (req,res) => {
 
 });
 

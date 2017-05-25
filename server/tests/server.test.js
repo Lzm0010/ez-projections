@@ -357,57 +357,75 @@ describe('DELETE /companies/:id', () => {
   });
 });
 
-//assumption type tests
-describe('POST /assumption-types', () => {
+//category tests
+describe('POST /companies/:id/categories', () => {
 
 });
 
-describe('GET /assumption-types', () => {
+describe('GET /companies/:id/categories', () => {
 
 });
 
-describe('PATCH /assumption-types/:id', () => {
+describe('PATCH /companies/:id/categories/:id', () => {
 
 });
 
-describe('DELETE /assumption-types/:id', () => {
+describe('DELETE /companies/:id/categories/:id', () => {
+
+});
+
+
+//product tests
+describe('POST /companies/:id/products', () => {
+
+});
+
+describe('GET /companies/:id/products', () => {
+
+});
+
+describe('GET /companies/:id/products/:id', () => {
+
+});
+
+describe('PATCH /companies/:id/products/:id', () => {
+
+});
+
+describe('DELETE /companies/:id/products/:id', () => {
+
+});
+
+//rule tests
+describe('POST /companies/:id/rules', () => {
+
+});
+
+describe('GET /companies/:id/rules', () => {
+
+});
+
+describe('PATCH /companies/:id/rules/:id', () => {
+
+});
+
+describe('DELETE /companies/:id/rules/:id', () => {
 
 });
 
 //assumption tests
-describe('POST /assumptions', () => {
+describe('POST /companies/:id/products/:id/assumptions', () => {
 
 });
 
-describe('GET /assumptions', () => {
+describe('GET /companies/:id/products/:id/assumptions', () => {
 
 });
 
-describe('PATCH /assumptions/:id', () => {
+describe('PATCH /companies/:id/products/:id/assumptions/:id', () => {
 
 });
 
-describe('DELETE /assumptions/:id', () => {
-
-});
-
-//product tests
-describe('POST /products', () => {
-
-});
-
-describe('GET /products', () => {
-
-});
-
-describe('GET /products/:id', () => {
-
-});
-
-describe('PATCH /products/:id', () => {
-
-});
-
-describe('DELETE /products/:id', () => {
+describe('DELETE /companies/:id/products/:id/assumptions/:id', () => {
 
 });
