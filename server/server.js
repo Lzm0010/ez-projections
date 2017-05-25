@@ -167,14 +167,17 @@ app.post('/companies/:id/categories', authenticate, (req,res) => {
     {
       _id: compId,
       _creator: req.user._id
-    }).then((comp) => {
+    })
+    .populate('categories')
+    .then((comp) => {
       if(!comp) {
         return res.status(404).send();
       }
 
       category.save().then((category) => {
         comp.categories.push(category);
-        comp.save().then(comp => {
+        comp.save()
+        .then(comp => {
           res.send(comp);
         }), (err) => {
           if (err) {
@@ -193,13 +196,52 @@ app.post('/companies/:id/categories', authenticate, (req,res) => {
 
 //get all categories for company
 app.get('/companies/:id/categories', authenticate, (req,res) => {
+  let compId = req.params.id;
 
+  if (!ObjectID.isValid(compId)){
+    return res.status(404).send();
+  }
+
+  Company.findOne(
+    {
+      _id: compId,
+      _creator: req.user._id
+    })
+    .populate('categories')
+    .then((comp) => {
+      if(!comp) {
+        return res.status(404).send();
+      }
+
+      res.send(comp.categories);
+    }).catch((err) => {
+      res.status(400).send(err);
+    });
 });
 
 //update category
-app.patch('/companies/:id/categories/:id', authenticate, (req,res) => {
-
-});
+// app.patch('/companies/:id/categories/:catId', authenticate, (req,res) => {
+//   let compId = req.params.id;
+//   let catId = req.params.catId;
+//
+//   if (!ObjectID.isValid(compId)){
+//     return res.status(404).send();
+//   }
+//
+//   Company.findOne(
+//     {
+//       _id: compId,
+//       _creator: req.user._id
+//     }).then((comp) => {
+//       if(!comp) {
+//         return res.status(404).send();
+//       }
+//
+//       res.send(comp.categories);
+//     }).catch((err) => {
+//       res.status(400).send(err);
+//     });
+// });
 
 //delete category
 app.delete('/companies/:id/categories/:id', authenticate, (req,res) => {
