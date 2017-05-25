@@ -2,10 +2,10 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 let AssumptionSchema = new Schema({
-  _type: {
+  _category: {
     required: true,
     type: Schema.Types.ObjectId,
-    ref: 'AssumptionType'
+    ref: 'Category'
   },
   name: {
     required: true,

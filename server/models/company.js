@@ -14,11 +14,15 @@ let CompanySchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: 'User'
   },
-  products: [{
+  categories:[{
+    type: Schema.Types.ObjectId,
+    ref: 'Category'
+  }],
+  products:[{
     type: Schema.Types.ObjectId,
     ref: 'Product'
   }],
-  rules: [{
+  rules:[{
     type: Schema.Types.ObjectId,
     ref: 'Rule'
   }]

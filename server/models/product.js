@@ -8,11 +8,7 @@ let ProductSchema = new Schema({
     type: String,
     minlength: 1
   },
-  assumptionTypes:[{
-    type: Schema.Types.ObjectId,
-    ref: 'AssumptionType'
-  }],
-  assumptions: [{
+  assumptions:[{
     type: Schema.Types.ObjectId,
     ref: 'Assumption'
   }]

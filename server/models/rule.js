@@ -8,10 +8,10 @@ let RuleSchema = new Schema({
     minlength: 1,
     type: String
   },
-  _type: {
+  _category: {
     required: true,
     type: Schema.Types.ObjectId,
-    ref: 'AssumptionType'
+    ref: 'Category'
   },
   rule: {
     required: true,

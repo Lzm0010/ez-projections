@@ -6,9 +6,9 @@ const {ObjectID} = require('mongodb');
 const {app} = require('./../server');
 const {User} = require('./../models/user');
 const {Company} = require('./../models/company');
-const {Product} = require('./../models/product');
-const {AssumptionType} = require('./../models/assumption-type');
+const {Category} = require('./../models/category');
 const {Rule} = require('./../models/rule');
+const {Product} = require('./../models/product');
 const {Assumption} = require('./../models/assumption');
 
 //seed data
