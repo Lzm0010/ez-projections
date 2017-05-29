@@ -2,9 +2,12 @@ const {ObjectID} = require('mongodb');
 const jwt = require('jsonwebtoken');
 const {User} = require('./../../models/user');
 const {Company} = require('./../../models/company');
+const {Category} =require('./../../models/category');
 
 const userOneId = new ObjectID();
 const userTwoId = new ObjectID();
+const compOneId = new ObjectID();
+const compTwoId = new ObjectID();
 const users = [
 	{
 		_id: userOneId,
@@ -26,18 +29,54 @@ const users = [
 	}
 ];
 
-const companies = [
+const categories = [
 	{
 		_id: new ObjectID(),
-		name: "Some Company LLC",
-		_creator: userOneId
+		name: "Inventory",
+		_company: compOneId
 	},
 	{
 		_id: new ObjectID(),
-		name: "Another Comp Corporation",
-		_creator: userTwoId
+		name: "Sales",
+		_company: compOneId
+	},
+	{
+		_id: new ObjectID(),
+		name: "Fixed",
+		_company: compTwoId
+	},
+	{
+		_id: new ObjectID(),
+		name: "Sales",
+		_company: compTwoId
 	}
 ];
+
+const companies = [
+	{
+		_id: compOneId,
+		name: "Some Company LLC",
+		_creator: userOneId,
+		categories: [categories[0], categories[1]],
+		products: [],
+		rules: []
+	},
+	{
+		_id: compTwoId,
+		name: "Another Comp Corporation",
+		_creator: userTwoId,
+		categories: [categories[2], categories[3]],
+		products: [],
+		rules: []
+	}
+];
+
+
+const populateCategories = (done) => {
+	Category.remove({}).then(() => {
+		return Category.insertMany(categories);
+	}).then(() => done());
+};
 
 const populateCompanies = (done) => {
 	Company.remove({}).then(() => {
@@ -54,4 +93,4 @@ const populateUsers = (done) => {
 	}).then(() => done());
 };
 
-module.exports = {users, companies, populateUsers, populateCompanies};
+module.exports = {users, companies, categories, populateUsers, populateCompanies, populateCategories};

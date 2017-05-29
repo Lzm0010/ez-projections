@@ -7,6 +7,11 @@ let CategorySchema = new Schema({
     trim: true,
     minlength: 1,
     type: String
+  },
+  _company: {
+    required: true,
+    type: Schema.Types.ObjectId,
+    ref: 'Company'
   }
 });
 

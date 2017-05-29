@@ -28,6 +28,17 @@ let CompanySchema = new Schema({
   }]
 });
 
+// CompanySchema.pre('remove', function(next) {
+//   const Category = mongoose.model('Category');
+//
+//   Category.remove({_id: {$in: this.categories }})
+//   .then(() => next());
+// });
+// const Product = mongoose.model('Product');
+// const Rule = mongoose.model('Rule');
+// let allProducts = Product.remove({_id: {$in: this.products }});
+// let allRules = Rule.remove({_id: {$in: this.rules }});
+
 let Company = mongoose.model('Company', CompanySchema);
 
 module.exports = {Company};
