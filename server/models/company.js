@@ -28,6 +28,17 @@ let CompanySchema = new Schema({
   }]
 });
 
+Company.methods.removeCategory = function(category) {
+  let company = this;
+
+  return company.update({
+    $pull: {
+      categories: {
+        category
+      }
+    }
+  });
+}
 // CompanySchema.pre('remove', function(next) {
 //   const Category = mongoose.model('Category');
 //

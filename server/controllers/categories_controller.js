@@ -109,6 +109,33 @@ module.exports = {
   },
   //delete category
   delete(req, res) {
+    let compId = req.params.id;
+    let catId = req.params.catId;
 
+    if (!ObjectID.isValid(compId) || !ObjectID.isValid(catId)){
+      return res.status(404).send();
+    }
+
+    Company.findOne(
+      {
+        _id: compId,
+        _creator: req.user._id
+      })
+      .populate('categories')
+      .then((comp) => {
+        if(!comp) {
+          return res.status(404).send();
+        }
+
+        // comp.removeCategory(catId).then()
+
+        Category.findOneAndRemove({_id: catId, _company: compId}).then((cat) => {
+          if(!cat) {
+            return res.status(404).send();
+          }
+          res.send({cat});
+        }).catch((err) => res.status(400).send(err));
+
+      }).catch((err) => res.status(400).send(err));
   }
 };
