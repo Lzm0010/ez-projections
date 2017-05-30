@@ -127,15 +127,15 @@ module.exports = {
           return res.status(404).send();
         }
 
-        // comp.removeCategory(catId).then()
-
-        Category.findOneAndRemove({_id: catId, _company: compId}).then((cat) => {
+        Category.findOne({_id: catId, _company: compId}).then((cat) => {
           if(!cat) {
             return res.status(404).send();
           }
-          res.send({cat});
-        }).catch((err) => res.status(400).send(err));
 
+          cat.remove().then(() => {
+            res.status(200).send();
+          }).catch((err) => res.status(400).send(err));
+        }).catch((err) => res.status(400).send(err));
       }).catch((err) => res.status(400).send(err));
   }
 };

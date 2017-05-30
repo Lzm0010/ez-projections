@@ -44,7 +44,9 @@ module.exports = {
       {
         _id: id,
         _creator: req.user._id
-      }).then((comp) => {
+      })
+      .populate('categories')
+      .then((comp) => {
         if(!comp) {
           return res.status(404).send();
         }

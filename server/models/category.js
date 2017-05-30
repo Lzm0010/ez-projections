@@ -15,6 +15,15 @@ let CategorySchema = new Schema({
   }
 });
 
+CategorySchema.pre('remove',function(next) {
+    this.model('Company').update(
+        { },
+        { "$pull": { "categories": this._id } },
+        { "multi": true },
+        next
+    );
+});
+
 let Category = mongoose.model('Category', CategorySchema);
 
 module.exports = {Category};

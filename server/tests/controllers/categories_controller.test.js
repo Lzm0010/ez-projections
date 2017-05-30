@@ -127,5 +127,57 @@ describe('PATCH /companies/:id/categories/:id', () => {
 });
 
 describe('DELETE /companies/:id/categories/:id', () => {
+  it('should find a category remove it from company and delete it', (done) => {
+    let compId = companies[0]._id.toHexString();
+    let catId = categories[0]._id.toHexString();
 
+    request(app)
+      .delete(`/companies/${compId}/categories/${catId}`)
+      .set('x-auth', users[0].tokens[0].token)
+      .expect(200)
+      .end((err, res) => {
+        if(err) {
+          return done(err);
+        }
+
+        Company.findById(compId)
+        .populate('categories')
+        .then((comp) => {
+          expect(comp.categories.length).toBe(1);
+        }).then(() => {
+          Category.findById(catId)
+          .then((cat) => {
+            expect(cat).toNotExist();
+            done();
+          })
+        }).catch((err) => done(err));
+      });
+  });
+
+  it('should not allow a category to be deleted by wrong user and company ', (done) => {
+    let compId = companies[0]._id.toHexString();
+    let catId = categories[2]._id.toHexString();
+
+    request(app)
+      .delete(`/companies/${compId}/categories/${catId}`)
+      .set('x-auth', users[0].tokens[0].token)
+      .expect(404)
+      .end((err, res) => {
+        if(err) {
+          return done(err);
+        }
+
+        Company.findById(compId)
+        .populate('categories')
+        .then((comp) => {
+          expect(comp.categories.length).toBe(2);
+        }).then(() => {
+          Category.findById(catId)
+          .then((cat) => {
+            expect(cat).toExist();
+            done();
+          })
+        }).catch((err) => done(err));
+      });
+  });
 });
