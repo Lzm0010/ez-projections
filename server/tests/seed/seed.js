@@ -4,6 +4,7 @@ const {User} = require('./../../models/user');
 const {Company} = require('./../../models/company');
 const {Category} =require('./../../models/category');
 const {Rule} = require('./../../models/rule');
+const {Product} = require('./../../models/product');
 
 const userOneId = new ObjectID();
 const userTwoId = new ObjectID();
@@ -70,7 +71,20 @@ const rules = [
 		name: "My Second Rule",
 		rule: "Demand * Units"
 	}
-]
+];
+
+const products = [
+	{
+		_id: new ObjectID(),
+		name: "Heineken",
+		_company: compOneId
+	},
+	{
+		_id: new ObjectID(),
+		name: "Budweiser",
+		_company: compTwoId
+	}
+];
 
 const companies = [
 	{
@@ -78,7 +92,7 @@ const companies = [
 		name: "Some Company LLC",
 		_creator: userOneId,
 		categories: [categories[0], categories[1]],
-		products: [],
+		products: [products[0]],
 		rules: [rules[0]]
 	},
 	{
@@ -86,10 +100,16 @@ const companies = [
 		name: "Another Comp Corporation",
 		_creator: userTwoId,
 		categories: [categories[2], categories[3]],
-		products: [],
+		products: [products[1]],
 		rules: [rules[1]]
 	}
 ];
+
+const populateProducts = (done) => {
+	Product.remove({}).then(() => {
+		return Product.insertMany(products);
+	}).then(() => done());
+};
 
 const populateRules = (done) => {
 	Rule.remove({}).then(() => {
@@ -123,8 +143,10 @@ module.exports = {
 	companies,
 	categories,
 	rules,
+	products,
 	populateUsers,
 	populateCompanies,
 	populateCategories,
-	populateRules
+	populateRules,
+	populateProducts
 };
