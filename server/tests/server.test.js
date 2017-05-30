@@ -2,12 +2,13 @@
 const {app} = require('./../server');
 
 //seed data
-const {populateUsers, populateCompanies, populateCategories} = require('./seed/seed');
+const {populateUsers, populateCompanies, populateCategories, populateRules} = require('./seed/seed');
 
 //before each test
 beforeEach(populateUsers);
 beforeEach(populateCompanies);
 beforeEach(populateCategories);
+beforeEach(populateRules);
 
 //user tests
 describe('USER TESTS', () => {

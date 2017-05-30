@@ -112,7 +112,7 @@ describe('PATCH /companies/:id/categories/:id', () => {
       });
   });
 
-  it('should not update a category that is not companies', (done) => {
+  it('should not update a category that is not companys', (done) => {
     let compId = companies[0]._id.toHexString();
     let catId = categories[2]._id.toHexString();
     let name = "Monkeys";

@@ -3,11 +3,14 @@ const jwt = require('jsonwebtoken');
 const {User} = require('./../../models/user');
 const {Company} = require('./../../models/company');
 const {Category} =require('./../../models/category');
+const {Rule} = require('./../../models/rule');
 
 const userOneId = new ObjectID();
 const userTwoId = new ObjectID();
 const compOneId = new ObjectID();
 const compTwoId = new ObjectID();
+const catOneId = new ObjectID();
+const catTwoId = new ObjectID();
 const users = [
 	{
 		_id: userOneId,
@@ -31,12 +34,12 @@ const users = [
 
 const categories = [
 	{
-		_id: new ObjectID(),
+		_id: catOneId,
 		name: "Inventory",
 		_company: compOneId
 	},
 	{
-		_id: new ObjectID(),
+		_id: catTwoId,
 		name: "Sales",
 		_company: compOneId
 	},
@@ -52,6 +55,23 @@ const categories = [
 	}
 ];
 
+const rules = [
+	{
+		_id: new ObjectID(),
+		_company: compOneId,
+		_category: catOneId,
+		name: "My First Rule",
+		rule: "Width * Height"
+	},
+	{
+		_id: new ObjectID(),
+		_company: compTwoId,
+		_category: catTwoId,
+		name: "My Second Rule",
+		rule: "Demand * Units"
+	}
+]
+
 const companies = [
 	{
 		_id: compOneId,
@@ -59,7 +79,7 @@ const companies = [
 		_creator: userOneId,
 		categories: [categories[0], categories[1]],
 		products: [],
-		rules: []
+		rules: [rules[0]]
 	},
 	{
 		_id: compTwoId,
@@ -67,10 +87,15 @@ const companies = [
 		_creator: userTwoId,
 		categories: [categories[2], categories[3]],
 		products: [],
-		rules: []
+		rules: [rules[1]]
 	}
 ];
 
+const populateRules = (done) => {
+	Rule.remove({}).then(() => {
+		return Rule.insertMany(rules);
+	}).then(() => done());
+};
 
 const populateCategories = (done) => {
 	Category.remove({}).then(() => {
@@ -93,4 +118,13 @@ const populateUsers = (done) => {
 	}).then(() => done());
 };
 
-module.exports = {users, companies, categories, populateUsers, populateCompanies, populateCategories};
+module.exports = {
+	users,
+	companies,
+	categories,
+	rules,
+	populateUsers,
+	populateCompanies,
+	populateCategories,
+	populateRules
+};
