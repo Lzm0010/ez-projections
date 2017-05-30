@@ -7,6 +7,11 @@ let AssumptionSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: 'Category'
   },
+  _product: {
+    required: true,
+    type: Schema.Types.ObjectId,
+    ref: 'Product'
+  },
   name: {
     required: true,
     trim: true,
@@ -21,6 +26,15 @@ let AssumptionSchema = new Schema({
   value: {
     type: Number
   }
+});
+
+AssumptionSchema.pre('remove',function(next) {
+    this.model('Product').update(
+        { },
+        { "$pull": { "assumptions": this._id } },
+        { "multi": true },
+        next
+    );
 });
 
 let Assumption = mongoose.model('Assumption', AssumptionSchema);

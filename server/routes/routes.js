@@ -71,7 +71,7 @@ module.exports = (app) => {
   //get all assumptions associated w/ product
   app.get('/companies/:id/products/:proId/assumptions', authenticate, AssumptionsController.index);
   //update assumption
-  app.patch('/companies/:id/products/:proId/assumptions/:AssId', authenticate, AssumptionsController.update);
+  app.patch('/companies/:id/products/:proId/assumptions/:assId', authenticate, AssumptionsController.update);
   //delete assumption
-  app.delete('/companies/:id/products/:proId/assumptions/:AssId', authenticate, AssumptionsController.delete);
+  app.delete('/companies/:id/products/:proId/assumptions/:assId', authenticate, AssumptionsController.delete);
 }
