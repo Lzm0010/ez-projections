@@ -25,7 +25,26 @@ module.exports = {
   //get all companies associated w/ user
   index(req, res) {
     Company.find({_creator: req.user._id})
+    .populate('_creator')
     .populate('categories')
+    .populate({
+      path:'rules',
+      populate: {
+        path:'_category',
+        model: 'Category'
+      }
+    })
+    .populate({
+      path:'products',
+      populate: {
+        path: 'assumptions',
+        model: 'Assumption',
+        populate: {
+          path: '_category',
+          model: 'Category'
+        }
+      }
+    })
     .then((companies) => {
       res.send({companies});
     }, (err) => {
@@ -45,7 +64,26 @@ module.exports = {
         _id: id,
         _creator: req.user._id
       })
+      .populate('_creator')
       .populate('categories')
+      .populate({
+        path:'rules',
+        populate: {
+          path:'_category',
+          model: 'Category'
+        }
+      })
+      .populate({
+        path:'products',
+        populate: {
+          path: 'assumptions',
+          model: 'Assumption',
+          populate: {
+            path: '_category',
+            model: 'Category'
+          }
+        }
+      })
       .then((comp) => {
         if(!comp) {
           return res.status(404).send();
@@ -65,7 +103,9 @@ module.exports = {
       return res.status(404).send();
     }
 
-    Company.findOneAndUpdate({_id: id, _creator: req.user._id}, {$set: body}, {new: true}).then((comp) => {
+    Company.findOneAndUpdate({_id: id, _creator: req.user._id}, {$set: body}, {new: true})
+    .populate('categories')
+    .then((comp) => {
       if (!comp) {
         return res.status(404).send();
       }
