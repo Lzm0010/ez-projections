@@ -2,7 +2,7 @@
 const {app} = require('./../server');
 
 //seed data
-const {populateUsers, populateCompanies, populateCategories, populateRules, populateProducts} = require('./seed/seed');
+const {populateUsers, populateCompanies, populateCategories, populateRules, populateProducts, populateAssumptions} = require('./seed/seed');
 
 //before each test
 beforeEach(populateUsers);
@@ -10,6 +10,7 @@ beforeEach(populateCompanies);
 beforeEach(populateCategories);
 beforeEach(populateRules);
 beforeEach(populateProducts);
+beforeEach(populateAssumptions);
 
 //user tests
 describe('USER TESTS', () => {

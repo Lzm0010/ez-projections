@@ -5,6 +5,7 @@ const {Company} = require('./../../models/company');
 const {Category} =require('./../../models/category');
 const {Rule} = require('./../../models/rule');
 const {Product} = require('./../../models/product');
+const {Assumption} = require('./../../models/assumption');
 
 const userOneId = new ObjectID();
 const userTwoId = new ObjectID();
@@ -12,6 +13,8 @@ const compOneId = new ObjectID();
 const compTwoId = new ObjectID();
 const catOneId = new ObjectID();
 const catTwoId = new ObjectID();
+const proOneId = new ObjectID();
+const proTwoId = new ObjectID();
 const users = [
 	{
 		_id: userOneId,
@@ -73,16 +76,37 @@ const rules = [
 	}
 ];
 
-const products = [
+const assumptions = [
 	{
 		_id: new ObjectID(),
-		name: "Heineken",
-		_company: compOneId
+		_product: proOneId,
+		_category: catOneId,
+		name: "Units per Store",
+		valueType: "Number",
+		value: 30
 	},
 	{
 		_id: new ObjectID(),
+		_product: proTwoId,
+		_category: catTwoId,
+		name: "Wholesale Price",
+		valueType: "Currency",
+		value: 45
+	}
+]
+
+const products = [
+	{
+		_id: proOneId,
+		name: "Heineken",
+		_company: compOneId,
+		assumptions: [assumptions[0]]
+	},
+	{
+		_id: proTwoId,
 		name: "Budweiser",
-		_company: compTwoId
+		_company: compTwoId,
+		assumptions: [assumptions[1]]
 	}
 ];
 
@@ -104,6 +128,12 @@ const companies = [
 		rules: [rules[1]]
 	}
 ];
+
+const populateAssumptions = (done) => {
+	Assumption.remove({}).then(() => {
+		return Assumption.insertMany(assumptions);
+	}).then(() => done());
+};
 
 const populateProducts = (done) => {
 	Product.remove({}).then(() => {
@@ -144,9 +174,11 @@ module.exports = {
 	categories,
 	rules,
 	products,
+	assumptions,
 	populateUsers,
 	populateCompanies,
 	populateCategories,
 	populateRules,
-	populateProducts
+	populateProducts,
+	populateAssumptions
 };

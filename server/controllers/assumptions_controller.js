@@ -2,7 +2,8 @@
 const _ = require('lodash');
 const {ObjectID} = require('mongodb');
 
-//assumptions model
+//relevant model
+const {Product} = require('./../models/product');
 const {Assumption} = require('./../models/assumption');
 
 module.exports = {
@@ -11,14 +12,14 @@ module.exports = {
     let compId = req.params.id;
     let proId = req.params.proId;
     let assumption = new Assumption({
-      _category: req.body._category,
       _product: proId,
+      _category: req.body._category,
       name: req.body.name,
       valueType: req.body.valueType,
       value: req.body.value
     });
 
-    if (!ObjectID.isValid(compId)){
+    if (!ObjectID.isValid(compId) || !ObjectID.isValid(proId)){
       return res.status(404).send();
     }
 
