@@ -27,12 +27,13 @@ ProductSchema.pre('remove',function(next) {
         next
     );
 });
-// ProductSchema.pre('remove', function(next) {
-//   const Assumption = mongoose.model('Assumption');
-//
-//   Assumption.remove({_id: {$in: this.assumptions}})
-//   .then(() => next());
-// });
+
+ProductSchema.pre('remove', function(next) {
+  const Assumption = mongoose.model('Assumption');
+
+  Assumption.remove({_id: {$in: this.assumptions}})
+  .then(() => next());
+});
 
 let Product = mongoose.model('Product', ProductSchema);
 

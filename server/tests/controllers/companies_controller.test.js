@@ -5,6 +5,7 @@ const {ObjectID} = require('mongodb');
 //relevant modules
 const {app} = require('./../../server');
 const {Company} = require('./../../models/company');
+const {Product} = require('./../../models/product');
 
 //seed data
 const {users, companies} = require('./../seed/seed');
@@ -75,7 +76,7 @@ describe('GET /companies/:id', () => {
       .set('x-auth', users[0].tokens[0].token)
       .expect(200)
       .expect((res) => {
-        expect(res.body.comp._creator).toBe(users[0]._id.toHexString());
+        expect(res.body.comp._creator).toInclude({_id:users[0]._id.toHexString(), email:users[0].email});
         expect(res.body.comp.name).toBe(companies[0].name);
       })
       .end(done);
@@ -159,6 +160,25 @@ describe('DELETE /companies/:id', () => {
 
         Company.findById(hexId).then((comp) => {
           expect(comp).toNotExist();
+          done();
+        }).catch((err) => done(err));
+      });
+  });
+
+  it('should delete products associated with company before deleting company', (done) => {
+    let hexId = companies[0]._id.toHexString();
+
+    request(app)
+      .delete(`/companies/${hexId}`)
+      .set('x-auth', users[0].tokens[0].token)
+      .expect(200)
+      .end((err, res) => {
+        if (err) {
+          return done(err);
+        }
+
+        Product.find({}).then((products) => {
+          expect(products.length).toBe(1);
           done();
         }).catch((err) => done(err));
       });

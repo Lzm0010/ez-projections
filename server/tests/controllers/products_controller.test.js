@@ -6,6 +6,7 @@ const {ObjectID} = require('mongodb');
 const {app} = require('./../../server');
 const {Company} = require('./../../models/company');
 const {Product} = require('./../../models/product');
+const {Assumption} = require('./../../models/assumption');
 
 //seed data
 const {users, companies, products} = require('./../seed/seed');
@@ -172,6 +173,27 @@ describe('DELETE /companies/:id/products/:id', () => {
             expect(product).toNotExist();
             done();
           })
+        }).catch((err) => done(err));
+      });
+  });
+
+  it('should delete assumptions that belong to product before deleting product', (done) => {
+    let compId = companies[0]._id.toHexString();
+    let proId = products[0]._id.toHexString();
+
+    request(app)
+      .delete(`/companies/${compId}/products/${proId}`)
+      .set('x-auth', users[0].tokens[0].token)
+      .expect(200)
+      .end((err, res) => {
+        if(err) {
+          return done(err);
+        }
+
+        Assumption.find({})
+        .then((assumptions) => {
+          expect(assumptions.length).toBe(1);
+          done();
         }).catch((err) => done(err));
       });
   });

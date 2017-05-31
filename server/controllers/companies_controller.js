@@ -121,11 +121,13 @@ module.exports = {
       return res.status(404).send();
     }
 
-    Company.findOneAndRemove({_id: id, _creator: req.user._id}).then((comp) => {
+    Company.findOne({_id: id, _creator: req.user._id}).then((comp) => {
       if(!comp) {
         return res.status(404).send();
       }
-      res.send({comp});
+      comp.remove().then(() => {
+        res.status(200).send();
+      }).catch((err) => res.status(400).send(err));
     }).catch((err) => res.status(400).send(err));
   }
 };
