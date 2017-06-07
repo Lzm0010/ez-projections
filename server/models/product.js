@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const {ObjectID} = require('mongodb');
 const Schema = mongoose.Schema;
 
 let ProductSchema = new Schema({
@@ -18,6 +19,34 @@ let ProductSchema = new Schema({
     ref: 'Assumption'
   }]
 });
+
+// ProductSchema.pre('save', function(next) {
+//   const Assumption = mongoose.model('Assumption');
+//   const product = this;
+//
+//   const assumptions = [
+//     {
+//       _id: new ObjectID(),
+//       _product: product._id,
+//       _category: "insert",
+//   		name: "insert",
+//   		valueType: "insert",
+//   		value: 111
+//     },
+//     {
+//       //add assumptions
+//     }
+//   ];
+//
+//   if (product.isNew) {
+//     Assumption.create(assumptions)
+//     .then((assumptions) => {
+//       //this isnt pushing to products
+//       product.assumptions.concat(assumptions);
+//       next();
+//     });
+//   }
+// });
 
 ProductSchema.pre('remove',function(next) {
     this.model('Company').update(

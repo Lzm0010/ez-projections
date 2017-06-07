@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const {ObjectID} = require('mongodb');
 const Schema = mongoose.Schema;
 
 let CompanySchema = new Schema({
@@ -27,6 +28,76 @@ let CompanySchema = new Schema({
     ref: 'Rule'
   }]
 });
+
+//CANT GET TO WORK, SEE IF IT CAN BE HANDLED IN REACT
+// CompanySchema.pre('save', function(next) {
+//   const Category = mongoose.model('Category');
+//
+//   const company = this;
+//
+//   const categories = [{
+// 		_id: new ObjectID(),
+// 		name: "Inventory",
+// 		_company: company._id
+// 	},
+// 	{
+// 		_id: new ObjectID(),
+// 		name: "Sales",
+// 		_company: company._id
+// 	},
+// 	{
+// 		_id: new ObjectID(),
+// 		name: "Cost",
+// 		_company: company._id
+// 	},
+// 	{
+// 		_id: new ObjectID(),
+// 		name: "Fixed",
+// 		_company: company._id
+// 	},
+// 	{
+// 		_id: new ObjectID(),
+// 		name: "Employee",
+// 		_company: company._id
+// 	},
+// 	{
+// 		_id: new ObjectID(),
+// 		name: "Demand",
+// 		_company: company._id
+// 	}];
+//
+//   if (company.isNew) {
+//     Category.create(categories)
+//     .then((categories) => {
+//
+//       console.log(categories, company.typeOf());
+//       // company.categories.concat(categories);
+//       next();
+//     });
+//   }
+// });
+
+// CompanySchema.pre('save', function(next) {
+//   const Product = mongoose.model('Product');
+//   const company = this;
+//
+//   const product = {
+//     _id: new ObjectID(),
+// 		name: "Test Product",
+// 		_company: company._id,
+// 		assumptions: []
+//   };
+//
+//   if (company.isNew) {
+//     Product.create(product)
+//     .then((product) => {
+//       //this isnt pushing to products
+//       company.products.concat(product);
+//       next();
+//     });
+//   }
+// });
+//COME BACK TO COMPANY & populate rules? RETHINK RULES???
 
 CompanySchema.pre('remove', function(next) {
   const Category = mongoose.model('Category');
